@@ -1,0 +1,72 @@
+// Simple Radix Sort in C++
+#include <iostream>
+using namespace std;
+
+int arr[7] = {38, 27, 43, 3, 9, 82, 10};   // array to sort
+int output[7];                             // temporary array
+int n = 7;                                 // number of elements
+
+// Step 1: find the largest number (it tells us how many digits to check)
+int getMax() {
+    int max = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    return max;
+}
+
+// Step 2: sort the array according to one digit (exp = 1, 10, 100, ...)
+void countingSort(int exp) {
+    int count[10] = {0};   // count of each digit from 0 to 9
+
+    // count how many times each digit appears
+    for (int i = 0; i < n; i++) {
+        int digit = (arr[i] / exp) % 10;
+        count[digit]++;
+    }
+
+    // make count[] show the final position of each digit
+    for (int i = 1; i < 10; i++) {
+        count[i] = count[i] + count[i - 1];
+    }
+
+    // build the output array (go from the back to keep the order stable)
+    for (int i = n - 1; i >= 0; i--) {
+        int digit = (arr[i] / exp) % 10;
+        output[count[digit] - 1] = arr[i];
+        count[digit]--;
+    }
+
+    // copy the output back to the original array
+    for (int i = 0; i < n; i++) {
+        arr[i] = output[i];
+    }
+}
+
+// Step 3: sort digit by digit, starting from the unit digit
+void radixSort() {
+    int max = getMax();
+
+    for (int exp = 1; max / exp > 0; exp = exp * 10) {
+        countingSort(exp);
+    }
+}
+
+int main() {
+    cout << "Before sorting: ";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+
+    radixSort();
+
+    cout << "\nAfter sorting : ";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}

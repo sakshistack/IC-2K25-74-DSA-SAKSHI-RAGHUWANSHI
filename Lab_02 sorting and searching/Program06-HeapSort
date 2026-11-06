@@ -1,0 +1,66 @@
+// Simple Heap Sort in C++
+#include <iostream>
+using namespace std;
+
+int arr[7] = {38, 27, 43, 3, 9, 82, 10};   // array to sort
+int n = 7;                                 // number of elements
+
+// Step 1: make sure the element at index i is bigger than its children
+void heapify(int size, int i) {
+    int largest = i;          // assume parent is the largest
+    int left = 2 * i + 1;     // left child
+    int right = 2 * i + 2;    // right child
+
+    // check if left child is bigger
+    if (left < size && arr[left] > arr[largest]) {
+        largest = left;
+    }
+
+    // check if right child is bigger
+    if (right < size && arr[right] > arr[largest]) {
+        largest = right;
+    }
+
+    // if a child is bigger, swap and continue downwards
+    if (largest != i) {
+        int temp = arr[i];
+        arr[i] = arr[largest];
+        arr[largest] = temp;
+
+        heapify(size, largest);
+    }
+}
+
+// Step 2: build the heap, then take out the largest element one by one
+void heapSort() {
+    // build a max heap (start from the last parent and go up)
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        heapify(n, i);
+    }
+
+    // move the largest element (root) to the end, then fix the heap
+    for (int i = n - 1; i > 0; i--) {
+        int temp = arr[0];
+        arr[0] = arr[i];
+        arr[i] = temp;
+
+        heapify(i, 0);   // heap size is now reduced to i
+    }
+}
+
+int main() {
+    cout << "Before sorting: ";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+
+    heapSort();
+
+    cout << "\nAfter sorting : ";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}

@@ -1,0 +1,55 @@
+// Simple Quick Sort in C++
+#include <iostream>
+using namespace std;
+
+int arr[7] = {38, 27, 43, 3, 9, 82, 10};   // array to sort
+
+// Step 1: choose the last element as pivot and place it at its correct position
+int partition(int low, int high) {
+    int pivot = arr[high];   // pivot element
+    int i = low - 1;         // i marks the end of the "smaller than pivot" part
+
+    for (int j = low; j < high; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            // swap arr[i] and arr[j]
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+
+    // put the pivot in its correct position
+    int temp = arr[i + 1];
+    arr[i + 1] = arr[high];
+    arr[high] = temp;
+
+    return i + 1;   // position of the pivot
+}
+
+// Step 2: sort the left and right parts of the pivot
+void quickSort(int low, int high) {
+    if (low < high) {
+        int p = partition(low, high);   // pivot position
+
+        quickSort(low, p - 1);          // sort left of pivot
+        quickSort(p + 1, high);         // sort right of pivot
+    }
+}
+
+int main() {
+    cout << "Before sorting: ";
+    for (int i = 0; i < 7; i++) {
+        cout << arr[i] << " ";
+    }
+
+    quickSort(0, 6);   // sort from index 0 to index 6
+
+    cout << "\nAfter sorting : ";
+    for (int i = 0; i < 7; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
