@@ -1,0 +1,87 @@
+#include<iostream>
+#define max 5
+class queue
+{
+    private:
+    int front,rear,x;
+    public:
+    void insert();
+    void delete_e();
+    void display();
+    queue()
+    {
+        front=-1;
+        rear=-1;
+    }
+};
+void queue::insert()
+{
+if(rear==max-1)
+{
+    cout<<"queue overflow\n";
+}else{
+    cout<<"enter element to add to queue\n";
+    cin>>x;
+    if(front==-1)
+    {
+        rear= 0;
+        front= 0;
+    }else{
+        rear++;
+    }
+    a[rear]=x;
+}
+}
+void queue::delete_e()
+{
+    if(front==-1)
+    {
+        cout<<"queue underflow\n";
+    }else{
+        x=a[front];
+        if(front==0)
+        {
+            front=-1;
+            rear=-1;
+        }else{
+            front++;
+        }
+        }
+    } 
+
+    void queue::display()
+    {
+        if(front==-1)
+        {
+            cout<<"queue underflow\n";
+        }else{
+            for(int i=front; i<=rear; i++)
+            {
+                cout<<a[i]"\n";
+            }
+        }
+    }
+    int main()
+    {
+        queue q1;
+        int choice;
+        char c;
+        do{
+            cout<<"\n 1.insert 2.delete_e 3.display";
+            cin>>choice;
+            switch(choice)
+            {
+                case 1:
+                q1.insert();
+                break;
+                case 2:
+                q2.delete_e();
+                break;
+                case 3:
+                q3.display();
+                break;
+            }
+            }
+            cout<<"while(c=='y'|| c=='Y');
+            cin>>c;
+        }

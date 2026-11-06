@@ -1,0 +1,121 @@
+
+#include <iostream>
+#define MAX 3
+
+using namespace std;
+
+class CircularQueue
+{
+    int a[MAX], front, rear, x;
+
+public:
+    CircularQueue()
+    {
+        front = -1;
+        rear = -1;
+    }
+    void insert_c();
+    void delete_c();
+    void display();
+};
+
+void CircularQueue::insert_c()
+{
+    if ((rear + 1) % MAX == front)
+    {
+        cout << "CQueue is full\n";
+    }
+    else
+    {
+        cout << "enter element: ";
+        cin >> x;
+        if (rear == -1)
+        {
+            front = 0;
+            rear = 0;
+        }
+        else
+        {
+            rear = (rear + 1) % MAX;
+        }
+        a[rear] = x;
+        cout << "Inserted successfully\n";
+    }
+}
+
+void CircularQueue::delete_c()
+{
+    if (front == -1)
+    {
+        cout << "queue is empty\n";
+    }
+    else
+    {
+        x = a[front];
+        if (front == rear)
+        {
+            front = -1;
+            rear = -1;
+        }
+        else
+        {
+            front = (front + 1) % MAX;
+        }
+        cout << "delete item = " << x << "\n";
+    }
+}
+
+void CircularQueue::display()
+{
+    if (front == -1)
+    {
+        cout << "queue has no element\n";
+    }
+    else
+    {
+        cout << "Queue elements: ";
+        int i = front;
+        while (true)
+        {
+            cout << a[i] << " ";
+            if (i == rear)
+                break;
+            i = (i + 1) % MAX;
+        }
+        cout << "\n";
+    }
+}
+
+int main()
+{
+    CircularQueue C1;
+    int choice;
+    char C;
+
+    do
+    {
+        cout << "\n1. insert  2. delete  3. display\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            C1.insert_c();
+            break;
+        case 2:
+            C1.delete_c();
+            break;
+        case 3:
+            C1.display();
+            break;
+        default:
+            cout << "Invalid choice\n";
+        }
+
+        cout << "You want to continue? (y/n): ";
+        cin >> C;
+    } while (C == 'y' || C == 'Y');
+
+    return 0;
+}

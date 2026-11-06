@@ -1,0 +1,119 @@
+#include <iostream>
+#define MAX 5
+
+using namespace std;
+
+class PriorityQueue
+{
+    int a[MAX], x;
+    int rear;
+
+public:
+    PriorityQueue()
+    {
+        rear = -1;
+    }
+    void insert_p();
+    void delete_p();
+    void display();
+};
+
+void PriorityQueue::insert_p()
+{
+    if (rear == MAX - 1)
+    {
+        cout << "Priority Queue is full (Overflow)\n";
+    }
+    else
+    {
+        cout << "Enter element: ";
+        cin >> x;
+        if (rear == -1)
+        {
+            rear++;
+            a[rear] = x;
+        }
+        else
+        {
+            // Insert in sorted order (ascending priority: smaller value has higher priority)
+            int i = rear;
+            while (i >= 0 && a[i] > x)
+            {
+                a[i + 1] = a[i];
+                i--;
+            }
+            a[i + 1] = x;
+            rear++;
+        }
+        cout << "Inserted successfully\n";
+    }
+}
+
+void PriorityQueue::delete_p()
+{
+    if (rear == -1)
+    {
+        cout << "Priority Queue is empty (Underflow)\n";
+    }
+    else
+    {
+        x = a[0]; // Highest priority element is at index 0
+        for (int i = 0; i < rear; i++)
+        {
+            a[i] = a[i + 1];
+        }
+        rear--;
+        cout << "Deleted highest priority item = " << x << "\n";
+    }
+}
+
+void PriorityQueue::display()
+{
+    if (rear == -1)
+    {
+        cout << "Priority Queue has no elements\n";
+    }
+    else
+    {
+        cout << "Priority Queue elements: ";
+        for (int i = 0; i <= rear; i++)
+        {
+            cout << a[i] << " ";
+        }
+        cout << "\n";
+    }
+}
+
+int main()
+{
+    PriorityQueue pq;
+    int choice;
+    char C;
+
+    do
+    {
+        cout << "\n1. Insert  2. Delete  3. Display\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            pq.insert_p();
+            break;
+        case 2:
+            pq.delete_p();
+            break;
+        case 3:
+            pq.display();
+            break;
+        default:
+            cout << "Invalid choice\n";
+        }
+
+        cout << "You want to continue? (y/n): ";
+        cin >> C;
+    } while (C == 'y' || C == 'Y');
+
+    return 0;
+}
