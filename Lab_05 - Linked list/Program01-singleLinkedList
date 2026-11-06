@@ -1,0 +1,217 @@
+#include <iostream.h>
+using namespace std;
+struct node
+{
+    int data;
+    node *link;
+};
+
+class LL
+{
+    node *start;
+
+public:
+    void create();
+    void display();
+    void count();
+    void search(int num);
+    void insert(int pos, int val);
+    void delete_node();
+    LL()
+    {
+        start = NULL;
+    }
+    ~LL();
+};
+
+void LL::create()
+{
+    node *on, *char C;           // ON -> Old Node, NN -> New Node
+    node *nn = new node;
+    cout << "Enter data";
+    cin >> nn->data;
+    nn->link = NULL;
+
+    if (start == NULL)
+    {
+        start = nn;
+    }
+    else
+    {
+        on->link = nn;
+    }
+
+    cout << "Want to add more data";
+    cin >> C;
+    // while (C == 'y' || C == 'Y')
+}
+
+void LL::insert(int pos, int val)
+{
+    node *nn, *temp;
+    int i;
+    nn = new node();
+    nn->data = val;
+    nn->link = NULL;
+
+    if (pos == 1 || start == NULL)
+    {
+        nn->link = start;
+        start = nn;
+    }
+    else
+    {
+        i = 1;
+        temp = start;
+        while (i < (pos - 1) && temp->link != NULL)
+        {
+            temp = temp->link;
+            i++;
+        }
+        temp->link = nn->link;
+        temp->link = nn;
+    }
+}
+
+void LL::count()
+{
+    int i = 0;
+    node *temp;
+    temp = start;
+    if (start == NULL)
+    {
+        cout << "LL has no element";
+    }
+    else
+    {
+        while (temp != NULL)
+        {
+            i++;
+            temp = temp->link;
+        }
+        cout << "total element " << i;
+    }
+}
+
+void LL::search(int num)
+{
+    node *t;
+    int F = 0;
+    t = start;
+    int i = 0;
+    do
+    {
+        i++;
+        if (t->data == num)
+        {
+            F = 1;
+            cout << "Element found at " << i;
+            break;
+        }
+        else
+        {
+            t = t->link;
+        }
+    } while (t != NULL);
+
+    if (F == 0)
+    {
+        cout << "element not found";
+    }
+}
+
+void LL::delete_node()
+{
+    node *t, *prev;
+    int num;
+    t = start;
+    cout << "Enter element to delete";
+    cin >> num;
+
+    while (t != NULL)
+    {
+        if (t->data == num)
+        {
+            if (t == start)
+            {
+                start = t->link;
+            }
+            else
+            {
+                prev->link = t->link;
+            }
+            delete t;
+            cout << "deleted item";
+            break;
+        }
+        else
+        {
+            prev = t;
+            t = t->link;
+        }
+    }
+
+    if (t == NULL)
+    {
+        cout << "data not found";
+    }
+}
+
+void LL::display()
+{
+    node *t;
+    for (t = start; t != NULL; t = t->link)
+    {
+        cout << t->data;
+    }
+}
+
+LL::~LL()
+{
+    node *t;
+    while (start != NULL)
+    {
+        t = start;
+        start = start->link;
+        delete t;
+    }
+}
+
+int main()
+{
+    LL l1;
+    char C;
+    int choice;
+    int pos, num;
+
+    do
+    {
+        cout << "\n 1. create 2. insert 3. delete 4. display 5. count 6. search \n";
+        cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            l1.create();
+            break;
+        case 2:
+            cout << "Enter pos and num: ";
+            cin >> pos >> num;
+            l1.insert(pos, num);
+            break;
+        case 3:
+            l1.delete_node();
+            break;
+        case 4:
+            l1.display();
+            break;
+        case 5:
+            l1.count();
+            break;
+        case 6:
+            cout << "Enter num: ";
+            cin >> num;
+            l1.search(num);
+            break;
+        }
+    } while (C == 'y' || C == 'Y');
+}

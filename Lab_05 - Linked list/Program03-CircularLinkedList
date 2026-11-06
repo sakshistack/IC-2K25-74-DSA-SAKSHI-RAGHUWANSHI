@@ -1,0 +1,272 @@
+#include <iostream.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    node *link;
+};
+
+class CircularLL
+{
+    node *start;
+
+public:
+    void create();
+    void display();
+    void count();
+    void search(int num);
+    void insert(int pos, int val);
+    void delete_node();
+    
+    CircularLL()
+    {
+        start = NULL;
+    }
+    ~CircularLL();
+};
+
+void CircularLL::create()
+{
+    node *nn = new node;
+    cout << "Enter data: ";
+    cin >> nn->data;
+    nn->link = NULL;
+
+    if (start == NULL)
+    {
+        start = nn;
+        nn->link = start; // Points back to itself (Circular)
+    }
+    else
+    {
+        node *temp = start;
+        while (temp->link != start)
+        {
+            temp = temp->link;
+        }
+        temp->link = nn;
+        nn->link = start; // Last node points back to start
+    }
+}
+
+void CircularLL::insert(int pos, int val)
+{
+    node *nn = new node();
+    nn->data = val;
+    nn->link = NULL;
+
+    if (start == NULL)
+    {
+        start = nn;
+        nn->link = start;
+        return;
+    }
+
+    if (pos == 1)
+    {
+        node *temp = start;
+        while (temp->link != start)
+        {
+            temp = temp->link;
+        }
+        nn->link = start;
+        start = nn;
+        temp->link = start; // Update last node's link to new start
+    }
+    else
+    {
+        node *temp = start;
+        int i = 1;
+        while (i < (pos - 1) && temp->link != start)
+        {
+            temp = temp->link;
+            i++;
+        }
+        nn->link = temp->link;
+        temp->link = nn;
+    }
+}
+
+void CircularLL::count()
+{
+    if (start == NULL)
+    {
+        cout << "Circular LL has no elements";
+        return;
+    }
+
+    int i = 0;
+    node *temp = start;
+    do
+    {
+        i++;
+        temp = temp->link;
+    } while (temp != start);
+    
+    cout << "Total elements: " << i;
+}
+
+void CircularLL::search(int num)
+{
+    if (start == NULL)
+    {
+        cout << "List is empty";
+        return;
+    }
+
+    node *t = start;
+    int F = 0;
+    int i = 0;
+    
+    do
+    {
+        i++;
+        if (t->data == num)
+        {
+            F = 1;
+            cout << "Element found at position " << i;
+            break;
+        }
+        t = t->link;
+    } while (t != start);
+
+    if (F == 0)
+    {
+        cout << "Element not found";
+    }
+}
+
+void CircularLL::delete_node()
+{
+    if (start == NULL)
+    {
+        cout << "List is empty, nothing to delete";
+        return;
+    }
+
+    int num;
+    cout << "Enter element to delete: ";
+    cin >> num;
+
+    node *t = start;
+    node *prev = NULL;
+
+    // Find the node to delete
+    do
+    {
+        if (t->data == num)
+            break;
+        prev = t;
+        t = t->link;
+    } while (t != start);
+
+    if (t->data != num)
+    {
+        cout << "Data not found";
+        return;
+    }
+
+    // Case 1: Only one node in the list
+    if (t->link == start && t == start)
+    {
+        start = NULL;
+        delete t;
+    }
+    // Case 2: Deleting the start node (need to update last node's link)
+    else if (t == start)
+    {
+        node *last = start;
+        while (last->link != start)
+        {
+            last = last->link;
+        }
+        start = start->link;
+        last->link = start;
+        delete t;
+    }
+    // Case 3: Deleting intermediate or last node
+    else
+    {
+        prev->link = t->link;
+        delete t;
+    }
+    cout << "Deleted item successfully";
+}
+
+void CircularLL::display()
+{
+    if (start == NULL)
+    {
+        cout << "List is empty";
+        return;
+    }
+
+    node *temp = start;
+    cout << "Circular Linked List: ";
+    do
+    {
+        cout << temp->data << " -> ";
+        temp = temp->link;
+    } while (temp != start);
+    cout << "(back to start)";
+}
+
+CircularLL::~CircularLL()
+{
+    if (start == NULL) return;
+    
+    node *t = start;
+    node *next_node;
+    do
+    {
+        next_node = t->link;
+        delete t;
+        t = next_node;
+    } while (t != start);
+    
+    start = NULL;
+}
+
+int main()
+{
+    CircularLL l3;
+    char C;
+    int choice;
+    int pos, num;
+
+    do
+    {
+        cout << "\n1. Create 2. Insert 3. Delete 4. Display 5. Count 6. Search\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        
+        switch (choice)
+        {
+        case 1:
+            l3.create();
+            break;
+        case 2:
+            cout << "Enter position and value: ";
+            cin >> pos >> num;
+            l3.insert(pos, num);
+            break;
+        case 3:
+            l3.delete_node();
+            break;
+        case 4:
+            l3.display();
+            break;
+        case 5:
+            l3.count();
+            break;
+        case 6:
+            cout << "Enter number to search: ";
+            cin >> num;
+            l3.search(num);
+            break;
+        }
+        cout << "\nWant to continue? (y/n): ";
+    } while (C == 'y' || C == 'Y');
+    
+}

@@ -1,0 +1,135 @@
+#include <iostream>
+
+using namespace std;
+
+struct node
+{
+    int data;
+    node *link;
+};
+
+class QueueLL
+{
+    node *front; // Points to the start of the queue 
+    node *rear;  // Points to the end of the queue
+
+public:
+    void insert();
+    void delete_e();
+    void display();
+    
+    QueueLL()
+    {
+        front = NULL;
+        rear = NULL;
+    }
+    ~QueueLL();
+};
+
+void QueueLL::insert()
+{
+    node *nn = new node;
+    cout << "Enter data to enqueue: ";
+    cin >> nn->data;
+    nn->link = NULL;
+
+    // If queue is empty, both front and rear point to the new node
+    if (front == NULL && rear == NULL)
+    {
+        front = rear = nn;
+    }
+    else
+    {
+        rear->link = nn;
+        rear = nn;
+    }
+    cout << "Item inserted at rear successfully.\n";
+}
+
+void QueueLL::delete_e()
+{
+    if (front == NULL)
+    {
+        cout << "Queue Underflow! No elements to dequeue.\n";
+        return;
+    }
+
+    node *temp = front;
+    cout << "Deleted item: " << temp->data << "\n";
+
+    // If front reaches rear, the queue becomes completely empty
+    if (front == rear)
+    {
+        front = rear = NULL;
+    }
+    else
+    {
+        front = front->link;
+    }
+    delete temp;
+}
+
+void QueueLL::display()
+{
+    if (front == NULL)
+    {
+        cout << "Queue is empty.\n";
+        return;
+    }
+
+    node *temp = front;
+    cout << "Queue elements (Front to Rear):\n";
+    while (temp != NULL)
+    {
+        cout << temp->data << " <- ";
+        temp = temp->link;
+    }
+    cout << "NULL\n";
+}
+
+QueueLL::~QueueLL()
+{
+    node *t;
+    while (front != NULL)
+    {
+        t = front;
+        front = front->link;
+        delete t;
+    }
+    rear = NULL;
+}
+
+int main()
+{
+    QueueLL q1;
+    char C;
+    int choice;
+
+    do
+    {
+        cout << "\n--- QUEUE USING LINKED LIST ---\n";
+        cout << "1.Insert\n2.  Delete\n3.  Display\n5. ";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        
+        switch (choice)
+        {
+        case 1:
+            q1.insert();
+            break;
+        case 2:
+            q1.delete_e();
+        case 3 :
+             q1.display();
+            break;
+        default:
+            cout << "Invalid choice!\n";
+        }
+            break;
+        case 
+        cout << "\nWant to continue? (y/n): ";
+        cin >> C;
+    } while (C == 'y' || C == 'Y');
+    
+    return 0;
+}
