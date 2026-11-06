@@ -1,0 +1,99 @@
+#include <iostream>
+#define max 5
+using namespace std;
+
+class stack
+{
+    int top;
+    int a[max];
+    int x;
+
+public:
+    stack()
+    {
+        top = -1;
+    }
+    void push();
+    void pop();
+    void display();
+};
+
+void stack :: push()
+{
+    if (top >= (max - 1))
+    {
+        cout << "Stack Overflow\n";
+        return;
+    }
+
+    cout << "Enter value to push: ";
+    cin >> x;
+    top++;
+    a[top] = x;
+    cout << x << " pushed into stack\n";
+}
+
+void stack :: pop()
+{
+    if (top == -1)
+    {
+        cout << "Stack Underflow\n";
+    }
+    else
+    {
+        x = a[top];
+        cout << x << " popped from stack\n";
+        top--;
+    }
+}
+
+void stack :: display()
+{
+    if (top == -1)
+    {
+        cout << "Stack is empty\n";
+    }
+    else
+    {
+        cout << "Stack elements are:\n";
+        for (int i = top; i >= 0; i--)
+            cout << a[i] << " ";
+        cout << "\n";
+    }
+}
+
+int main()
+{
+    stack s;
+    int choice;
+    char c;
+
+    do
+    {
+        cout << "1.Push\n2.Pop\n3.Display\n4.Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+            case 1:
+                s.push();
+                break;
+            case 2:
+                s.pop();
+                break;
+            case 3:
+                s.display();
+                break;
+            case 4:
+                exit(0);
+            default:
+                cout<<"Invalid choice\n";
+        }
+
+        cout << "Do you want to continue? (y/n): ";
+        cin >> c;
+    } while (c == 'y' || c == 'Y');
+
+    return 0;
+}
