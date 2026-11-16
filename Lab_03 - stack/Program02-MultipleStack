@@ -141,3 +141,18 @@ int main()
             S.pop1();
             break;
         case 4:
+            S.pop2();
+            break;
+        case 5:
+            S.show1();
+            break;
+        case 6:
+            S.show2();
+            break;
+         }
+         cout << "Do you want to continue? (y/n): ";
+         cin  >> c;
+       } while (c == 'y' || c == 'n');
+
+       return 0;
+   }
